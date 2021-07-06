@@ -5,11 +5,13 @@ public class Wallet {
 
     private int saldo;
     private boolean tieneLimite;
+    private int meta;
 
     public Wallet() {
         super();
         saldo = 0;
         tieneLimite = true;
+        meta = 0;
     }
 
     public int getSaldo(){
@@ -18,6 +20,24 @@ public class Wallet {
 
     public boolean getTieneLimite(){
         return tieneLimite;
+    }
+
+    public boolean establecerMeta(int value){
+        if(value==0){
+            meta = value;
+            return true;
+        }        
+        if(value < 0 || value <= saldo || (value > CAPACIDAD_MAXIMA && tieneLimite)){
+            return false;
+        }        
+        meta = value;
+        return true;
+    }
+    public boolean verificarMeta(){
+        if(meta == 0 || saldo < meta){
+            return false;
+        }
+        return true;
     }
 
     public void setTieneLimite(boolean newTieneLimite){
@@ -29,6 +49,7 @@ public class Wallet {
             return "No se puede superar el limite " + CAPACIDAD_MAXIMA;
         }
         saldo += value; // saldo = saldo + value
+        if(verificarMeta()){System.out.println("Has cumplido la meta!");}
         return "Transacción exitosa, nuevo saldo " + saldo;
     }
 
